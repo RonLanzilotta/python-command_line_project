@@ -51,3 +51,6 @@ def endpoint(id=None):
         return "Song " + str(song.title) + " deleted."
 
 app.run(debug=True, port=3333)
+
+song = input('What is name song?' )
+
