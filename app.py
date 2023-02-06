@@ -47,26 +47,17 @@ def session():
     "\n"
     "Enter GET and then the song's title if you'd like to see song details\n"
     "\n"
-    "Enter DELETE + title if you'd like to delete a song\n"
+    "Enter DELETE and then the song's title if you'd like to delete a song\n"
     "\n"
-    "Enter UPDATE + song title if you need to change some details of an entry\n"
     )
     user_input = input("------->  ")
-
-    # print(user_input.lower())
-    # song = Songs.get(Songs.title == user_input)
-    # print(song.title)
 
     if user_input.lower() == 'add':
         add()
     elif user_input.lower() == "delete":
         search = input("Which song would you like to delete?")
         Songs.delete().where(Songs.title == search).execute()
-        
         print(f"{search} was deleted.")
-
-    elif user_input.lower() == f"update {Songs.title}":
-        print('UPDATE WORKS')
 
     elif user_input.lower() == 'get':
         search = input("Enter the title of the song you want to see. ")
@@ -75,7 +66,8 @@ def session():
             f"TITLE: {song.title}\n"
             f"ARTIST: {song.artist}\n"
             f"KEY: {song.key}\n"
-            f"TEMPO: {song.tempo}\n")
+            f"TEMPO: {song.tempo}\n"
+            )
 
     else:
         print("Please only enter one of the options above")
