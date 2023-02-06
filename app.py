@@ -1,4 +1,3 @@
-from flask import Flask, jsonify, request
 from peewee import *
 from playhouse.shortcuts import model_to_dict, dict_to_model
 
@@ -18,26 +17,28 @@ db.connect()
 db.drop_tables([Songs])
 db.create_tables([Songs])
 
+#seeds info into SQL db
 Songs(title='Crazy In Love', artist='Beyoncé', key='D-', tempo=100).save()
 Songs(title='Watermelon Sugar', artist='Harry Styles', key='C', tempo=95).save()
 Songs(title='How Deep Is Your Love', artist='Bee Gees', key='Eb', tempo=105).save()
 
-# app = Flask(__name__)
-
-# app.run(debug=True, port=3333)
-
+# starts a new user session and loads instructions
 def session():
 
+    # defines ADD functionality
     def add():
+        
+        # sets each user input to a variable that corresponds with song entry info
+        title = input("Please enter title of song  ")
+        artist = input("Please enter artist  ")
+        key = input("Please enter key of song  ")
+        tempo = input("Please enter tempo of song  ")
 
-        title = input("Please enter title of song")
-        artist = input("Please enter artist")
-        key = input("Please enter key of song")
-        tempo = input("Please enter tempo of song")
+        #
+        song_entry = Songs(title = title, artist = artist, key = key, tempo = tempo)
+        song_entry.save()
+        print(f"'{title}' was added to the database!  ")
 
-        new_song = dict_to_model(Songs, request.get_json())
-        new_song.save()
-        return jsonify({"success": True})
 
     print("Welcome to the Song Archive.\n"
     "\n"
@@ -50,7 +51,7 @@ def session():
     "Enter UPDATE + song title if you need to change some details of an entry\n"
     )
     print()
-    user_input = input("------->")
+    user_input = input("------->  ")
 
     if user_input.lower() == 'add':
         add()
@@ -65,38 +66,3 @@ def session():
 
 
 session()
-
-# @app.route('/songs/', methods=['GET', 'POST'])
-# @app.route('/songs/<id>', methods=['GET', 'PUT', 'DELETE'])
-# def endpoint(id=None):
-#     if request.method == 'GET':
-#         if id:
-#             return jsonify(model_to_dict(Songs.get(Songs.id == id)))
-#         else:
-#             songs_list = []
-#             for song in Songs.select():
-#                 songs_list.append(model_to_dict(song))
-#             return jsonify(songs_list)
-
-#     if request.method == 'PUT':
-#         body = request.get_json()
-#         Songs.update(body).where(Songs.id == id).execute()
-#         return "Song " + str(song.title) + " has been updated."
-
-#     if request.method == 'POST':
-#         new_song = dict_to_model(Songs, request.get_json())
-#         new_song.save()
-#         return jsonify({"success": True})
-
-#     if request.method == 'DELETE':
-#         Songs.delete().where(Songs.id == id).execute()
-#         return "Song " + str(song.title) + " deleted."
-
-
-
-
-
-
-
-
-
